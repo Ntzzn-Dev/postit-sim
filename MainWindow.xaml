@@ -5,80 +5,130 @@
         AllowsTransparency="True"
         Background="Transparent"
         Topmost="True"
-        Width="250" Height="300">
+        Width="250"
+        Height="300"
+        ResizeMode="NoResize"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseRightButtonUp="Window_MouseRightButtonUp">
 
-    <Border Background="#FFF9F17F" CornerRadius="8">
+    <Window.Resources>
+
+        <!-- ContextMenu -->
+        <Style TargetType="ContextMenu">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <ContextMenu x:Key="GlobalMenu">
+            <MenuItem Header="📌 Mudar cor" Click="Color_Change_Click"/>
+            <MenuItem Header="🗑️ Excluir" Click="Opcao2_Click"/>
+            <Separator/>
+            <MenuItem Header="⚙️ Configurações"/>
+        </ContextMenu>
+
+    </Window.Resources>
+
+    <Border x:Name="RootBorder">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <!-- VIEW NORMAL -->
+            <Border x:Name="NormalView"
+            Background="#FFF9F17F"
+                CornerRadius="10">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Border Grid.Row="0"
-                Background="#FFEFE066"
-                CornerRadius="8,8,0,0"
-                MouseLeftButtonDown="DragArea_MouseLeftButtonDown">
+                <!-- HEADER -->
+                <Border x:Name="NormalViewHeader"
+                        Grid.Row="0"
+                        Background="#FFEFE066"
+                        CornerRadius="10,10,0,0"
+                        MouseLeftButtonDown="DragArea_MouseLeftButtonDown">
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="30" />
-                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Name="TitlePost"
-                        Text="Post-it"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        FontWeight="Bold"
-                        Grid.Column="0"/>
+                        <TextBlock x:Name="TitlePost"
+                                   Text="Post-it"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="Bold"/>
 
-                    <Button Content="✕"
-                        Grid.Column="1"
-                        Width="20"
-                        Height="20"
-                        Margin="0,5,5,5"
-                        Click="CloseButton_Click"
-                        Background="Transparent"
-                        BorderThickness="0">
+                        <!-- BOTÃO FECHAR -->
+                        <Button Content="✕"
+                                Grid.Column="1"
+                                Width="20"
+                                Height="20"
+                                Margin="0,5,5,5"
+                                Click="CloseButton_Click"
+                                Background="Transparent"
+                                BorderThickness="0">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border x:Name="border"
-                                    Background="Transparent"
-                                    CornerRadius="6">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            Background="Transparent"
+                                            CornerRadius="6">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
 
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border"
+                                                    Property="Background"
+                                                    Value="#33FF0000"/>
+                                            <Setter Property="Foreground"
+                                                    Value="Red"/>
+                                        </Trigger>
 
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border"
-                                            Property="Background"
-                                            Value="#33FF0000"/>
-                                        <Setter Property="Foreground" Value="Red"/>
-                                    </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="border"
+                                                    Property="Background"
+                                                    Value="#66FF0000"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
 
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="border"
-                                            Property="Background"
-                                            Value="#66FF0000"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </Grid>
+                <!-- TEXTO -->
+                <TextBox x:Name="TextPost"
+                         Grid.Row="1"
+                         AcceptsReturn="True"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="14"
+                         TextWrapping="Wrap"
+                         TextChanged="TextPost_changed"
+                         Margin="10"/>
+            </Grid>
             </Border>
 
-            <TextBox x:Name="TextPost"
-                Grid.Row="1"
-                AcceptsReturn="True"
-                Background="Transparent"
-                BorderThickness="0"
-                FontSize="14"
-                TextWrapping="Wrap"
-                TextChanged="TextPost_changed"
-                Margin="10"/>
+            <!-- VIEW DOCK (TRIÂNGULO) -->
+            <Grid x:Name="DockView"
+                Visibility="Collapsed"
+                MouseLeftButtonDown="Undock_Click">
+
+                <Path x:Name="DockedPath"
+                    Fill="#FFF9F17F"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+
+                </Path>
+            </Grid>
+
         </Grid>
     </Border>
 </Window>
