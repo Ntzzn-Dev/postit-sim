@@ -9,7 +9,6 @@
         Height="300"
         ResizeMode="NoResize"
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseRightButtonUp="Window_MouseRightButtonUp">
 
     <Window.Resources>

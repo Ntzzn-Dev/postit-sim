@@ -51,22 +51,13 @@ namespace postitSimulator
 
             var screenWidth = SystemParameters.WorkArea.Width;
 
-            double threshold = 7;
+            double threshold = -10;
 
             if (this.Left <= threshold)
             {
                 DockLeft();
             } else if (this.Left + this.Width >= screenWidth - threshold){
                 DockRight();
-            }
-        }
-
-        // CLIQUE NA JANELA (restaurar)
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (isDocked)
-            {
-               // Undock_Click();
             }
         }
 
@@ -114,7 +105,7 @@ namespace postitSimulator
 
             var screenWidth = SystemParameters.WorkArea.Width;
 
-            this.Left = this.Left == 0 ? 8 : screenWidth - normalWidth - 8;
+            this.Left = this.Left != 0 ? screenWidth - normalWidth : 0;
             this.Width = normalWidth;
             this.Height = normalHeigth;
 
