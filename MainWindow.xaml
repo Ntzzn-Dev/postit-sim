@@ -9,7 +9,9 @@
         Height="300"
         ResizeMode="NoResize"
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
-        MouseRightButtonUp="Window_MouseRightButtonUp">
+        MouseRightButtonUp="Window_MouseRightButtonUp"
+        MouseEnter="Window_MouseEnter"
+        MouseLeave="Window_MouseLeave">
 
     <Window.Resources>
 
@@ -22,14 +24,100 @@
             <Setter Property="Foreground" Value="White"/>
         </Style>
 
-        <ContextMenu x:Key="GlobalMenu">
-            <MenuItem Header="📌 Mudar cor" Click="Color_Change_Click"/>
-            <MenuItem Header="🗑️ Excluir" Click="Opcao2_Click"/>
-            <Separator/>
-            <MenuItem Header="⚙️ Configurações"/>
-        </ContextMenu>
+        <Style TargetType="Button" x:Key="ColorButtonStyle">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    <ContextMenu x:Key="GlobalMenu">
+        <UniformGrid Rows="2" Columns="4">
+            <Button Background="#FFF9F17F" Tag="0" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#7FF4FFF1" Tag="1" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#FFFDBA74" Tag="2" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#FFFFC1CC" Tag="3" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#FFBEEBC1" Tag="4" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#FFCBE7FF" Tag="5" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+            <Button Background="#FFFC9F9F" Tag="6" Style="{StaticResource ColorButtonStyle}" Click="ColorSelect_Click"/>
+        </UniformGrid>
+        <Separator/>
+        <UniformGrid Rows="7" Columns="4">
+            <Button Background="#7FF4FFF1" Content="🔍" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⋯" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⚙" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🎨" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="✒" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🖍" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🖌" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⏰" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="📅" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⏳" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⏱" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="⭐" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="❗" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="✔" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="❌" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🔒" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="🔓" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="💡" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="➕" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="✖" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="➖" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="💾" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="✏" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🗑" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+
+            <Button Background="#7FF4FFF1" Content="📌" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="📝" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🏷" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="📁" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+           
+        </UniformGrid>
+        <Separator/>
+        <MenuItem Header="🗑️ Excluir" Click="DeleteBtn_Click"/>
+        <Separator/>
+        <MenuItem Header="➕ Nova Polaroid" Click="AddPolaroid_Click"/>
+        <MenuItem Header="➕ Novo Postit" Click="AddPostit_Click"/>
+        <Separator/>
+        <MenuItem Header="✕ Fechar" Click="CloseBtn_Click"/>
+    </ContextMenu>
 
     </Window.Resources>
+
+    <Window.RenderTransform>
+        <ScaleTransform x:Name="WindowScale" ScaleX="1" ScaleY="1"/>
+    </Window.RenderTransform>
+
+    <Window.RenderTransformOrigin>
+        <Point X="0.5" Y="0.5"/>
+    </Window.RenderTransformOrigin>
 
     <Border x:Name="RootBorder">
         <Grid>
@@ -48,27 +136,24 @@
                         Grid.Row="0"
                         Background="#FFEFE066"
                         CornerRadius="10,10,0,0"
-                        MouseLeftButtonDown="DragArea_MouseLeftButtonDown">
+                        MouseLeftButtonDown="DragArea_MouseLeftButtonDown"
+                        MouseMove="DragArea_MouseMove"
+                        MouseLeftButtonUp="DragArea_MouseLeftButtonUp">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/> 
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="TitlePost"
-                                   Text="Post-it"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   FontWeight="Bold"/>
-
-                        <!-- BOTÃO FECHAR -->
-                        <Button Content="✕"
-                                Grid.Column="1"
+                         <!-- BOTÃO ADICIONAR -->
+                        <Button Content="+"
+                                Grid.Column="0"
                                 Width="20"
                                 Height="20"
                                 Margin="0,5,5,5"
-                                Click="CloseButton_Click"
+                                Click="AddPostit_Click"
                                 Background="Transparent"
                                 BorderThickness="0">
 
@@ -85,20 +170,107 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="border"
                                                     Property="Background"
-                                                    Value="#33FF0000"/>
+                                                    Value="#3300ff62"/>
                                             <Setter Property="Foreground"
-                                                    Value="Red"/>
+                                                    Value="Green"/>
                                         </Trigger>
 
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter TargetName="border"
                                                     Property="Background"
-                                                    Value="#66FF0000"/>
+                                                    Value="#6600ff62"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+
+                        <!-- TITULO -->
+                        <TextBlock x:Name="TitlePost"
+                                Grid.Column="1"
+                                Text="Post-it"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"/>
+
+                        <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+
+                            <!-- BOTÃO MINIMIZAR -->
+                            <Button Content="-"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,5,5,5"
+                                    Click="MinimizeBtn_Click"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border"
+                                                Background="Transparent"
+                                                CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border"
+                                                        Property="Background"
+                                                        Value="#335f625e"/>
+                                                <Setter Property="Foreground"
+                                                        Value="Gray"/>
+                                            </Trigger>
+
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border"
+                                                        Property="Background"
+                                                        Value="#665f625e"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <!-- BOTÃO FECHAR -->
+                            <Button Content="✕"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,5,5,5"
+                                    Click="CloseBtn_Click"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border"
+                                                Background="Transparent"
+                                                CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border"
+                                                        Property="Background"
+                                                        Value="#33FF0000"/>
+                                                <Setter Property="Foreground"
+                                                        Value="Red"/>
+                                            </Trigger>
+
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border"
+                                                        Property="Background"
+                                                        Value="#66FF0000"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </Border>
 
@@ -118,14 +290,21 @@
             <!-- VIEW DOCK (TRIÂNGULO) -->
             <Grid x:Name="DockView"
                 Visibility="Collapsed"
-                MouseLeftButtonDown="Undock_Click">
+                MouseLeftButtonDown="DragArea_MouseLeftButtonDown"
+                MouseMove="DragArea_MouseMove"
+                MouseLeftButtonUp="DragArea_MouseLeftButtonUp">
 
                 <Path x:Name="DockedPath"
                     Fill="#FFF9F17F"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center">
-
                 </Path>
+                <TextBlock x:Name="IconPost"
+                    Text="✏"
+                    Foreground="Black"
+                    FontSize="12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
             </Grid>
 
         </Grid>

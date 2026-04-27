@@ -1,23 +1,72 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows;
+using Microsoft.Win32;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Controls.Primitives;
 
 namespace postitSimulator
 {
-    public partial class MainWindow : Window
+    public partial class Polaroid : Window
     {
         private int isDockedLR = 0;
         private double normalWidth = 250;
         private double normalHeigth = 300;
+        private double aspectRatio;
 
-        public MainWindow()
+        public Polaroid()
         {
             InitializeComponent();
+            aspectRatio = this.Width / this.Height;
+        }
+
+        private bool _isResizing = false;
+        private Point _startMouse;
+        private double _startWidth;
+        private double _startHeight;
+
+       private void ResizeStart(object sender, MouseButtonEventArgs e)
+        {
+            _isResizing = true;
+            _startMouse = e.GetPosition(null);
+
+            _startWidth = this.Width;
+            _startHeight = this.Height;
+
+            Mouse.Capture((UIElement)sender);
+
+            e.Handled = true; // 🔥 ISSO AQUI resolve o conflito
+        }
+
+        private void ResizeMove(object sender, MouseEventArgs e)
+        {
+            if (!_isResizing) return;
+
+            var current = e.GetPosition(null);
+            var dx = current.X - _startMouse.X;
+
+            double newWidth = _startWidth + dx;
+
+            if (newWidth < 100) return; // evita quebrar layout
+
+            double newHeight = newWidth / aspectRatio;
+
+            this.Width = newWidth;
+            this.Height = newHeight;
+
+            e.Handled = true; // 🔥 importante
+        }
+
+        private void ResizeEnd(object sender, MouseButtonEventArgs e)
+        {
+            _isResizing = false;
+            Mouse.Capture(null);
+
+            e.Handled = true;
         }
 
         // Movimentação : =================================
@@ -72,31 +121,19 @@ namespace postitSimulator
 
         // Dock : =========================================
 
-        // AUTO TÍTULO
-        private void TextPost_changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void SelectImage_Click(object sender, RoutedEventArgs e)
         {
-            var firstLine = TextPost.Text
-                .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
-                .FirstOrDefault();
+            var dialog = new OpenFileDialog();
 
-            TitlePost.Text = string.IsNullOrWhiteSpace(firstLine)
-                ? "Post-it"
-                : firstLine;
-        }
+            dialog.Title = "Escolher imagem";
+            dialog.Filter = "Imagens (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
 
-        // FECHAR
-        private void CloseBtn_Click(object sender, RoutedEventArgs e)
-        { 
-            this.Close();
-        }
+            if (dialog.ShowDialog() == true)
+            {
+                var imagePath = dialog.FileName;
 
-        private void AddPostit_Click(object sender, RoutedEventArgs e)
-        {
-            new MainWindow().Show();
-        }
-        private void AddPolaroid_Click(object sender, RoutedEventArgs e)
-        {
-            new Polaroid().Show();
+                MyImage.Source = new BitmapImage(new Uri(imagePath));
+            }
         }
 
         // DETECTA SOLTAR MOUSE (para dock)
@@ -153,15 +190,6 @@ namespace postitSimulator
             DockedPath.Data = Geometry.Parse("M50,-5 C25,20 11.25,20 10,40 C11.25,60 25,60 50,85 C50,60 50,20 50,-5 Z");
         }
         
-        private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var screenWidth = SystemParameters.WorkArea.Width;
-            if(this.Left + normalWidth / 2 > screenWidth / 2)
-                DockRight();
-            else 
-                DockLeft();
-        }
-        
         // UNDOCK
         private void Undock()
         {
@@ -188,54 +216,23 @@ namespace postitSimulator
             menu.IsOpen = true;
         }
 
-        private void IconSelect_Click(object sender, RoutedEventArgs e)
+        private void WriteDetail_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn)
+            var dialog = new InputDialog("");
+
+            dialog.Owner = this;
+
+            if (dialog.ShowDialog() == true)
             {
-                IconPost.Text = btn.Content?.ToString();
+                string texto = dialog.Result;
+
+                DetailsText.Text = texto;
             }
         }
 
-        private void ColorSelect_Click(object sender, RoutedEventArgs e)
+        private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
-            int index = 0;
-            if (sender is Button btn && btn.Tag is string tag)
-            {
-                index = int.Parse(tag);
-            }
-            
-            NormalViewHeader.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(DarkPostItColors[index]));
-            NormalView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(PostItColors[index]));
-            DockedPath.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(PostItColors[index]));
-        }
-
-        private static readonly String[] PostItColors =
-        {
-            "#FFF9F17F",
-            "#7FF4FFF1",
-            "#FFFDBA74",
-            "#FFFFC1CC",
-            "#FFBEEBC1",
-            "#FFCBE7FF",
-            "#FFFC9F9F"
-        };
-        private static readonly String[] DarkPostItColors =
-        {
-            "#FFEFE066",
-            "#5FCFE6D6",
-            "#FFE6A85F",
-            "#FFE09CAA",
-            "#FF9FD49F",
-            "#FFA9C8E6",
-            "#FFE06A6A"
-        };
-
-        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TextPost.Text))
-                this.Close();
-            else
-                TextPost.Text = "";
+            this.Close();
         }
 
         // Animação : =====================================
@@ -262,6 +259,15 @@ namespace postitSimulator
 
             WindowScale.BeginAnimation(ScaleTransform.ScaleXProperty, anim);
             WindowScale.BeginAnimation(ScaleTransform.ScaleYProperty, anim);
+        }
+
+        private void AddPostit_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+        }
+        private void AddPolaroid_Click(object sender, RoutedEventArgs e)
+        {
+            new Polaroid().Show();
         }
     }
 }
