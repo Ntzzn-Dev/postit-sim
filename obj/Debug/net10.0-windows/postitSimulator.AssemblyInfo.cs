@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("postitSimulator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a599846e2f87f771416e45e2cf2d08e1cb8bbf3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76623b13514f6ad061268ca2d1b00ba7c216b649")]
 [assembly: System.Reflection.AssemblyProductAttribute("postitSimulator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("postitSimulator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,37 @@
+[
+  {
+    "Titulo": "Post-it",
+    "Icone": "\u274C",
+    "PosicaoY": 295.3333333333333,
+    "LadoLR": 0,
+    "Cor": 6
+  },
+  {
+    "Titulo": "nadave",
+    "Icone": "\u270F",
+    "PosicaoY": 0,
+    "LadoLR": 1,
+    "Cor": 6
+  },
+  {
+    "Titulo": "MASCARAS",
+    "Icone": "\u270F",
+    "PosicaoY": 170,
+    "LadoLR": 0,
+    "Cor": 4
+  },
+  {
+    "Titulo": "AA",
+    "Icone": "\u270F",
+    "PosicaoY": 146.66666666666666,
+    "LadoLR": 0,
+    "Cor": 4
+  },
+  {
+    "Titulo": "\uD83D\uDC14\uD83C\uDF3E JOGO \u2013 PLANEJAMENTO INICIAL \uD83C\uDF3E",
+    "Icone": "\u274C",
+    "PosicaoY": 208.66666666666666,
+    "LadoLR": 0,
+    "Cor": 6
+  }
+]

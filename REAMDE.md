@@ -25,4 +25,5 @@ Sinta-se à vontade para abrir issues ou sugerir melhorias!
 ## Log de versões
 - **v1.0** → Versão inicial, apenas um bloco de notas comum
 - **v2.0** → Adição de cores e de minimização.
-- **v3.0** → Melhor customização e mais fluidez no uso.
+- **v3.0** → Melhor customização e mais fluidez no uso, adição da Polaroid para pequenas imagens.
+- **v4.0** → Consistencia de dados e abrir e salvar arquivos de texto.

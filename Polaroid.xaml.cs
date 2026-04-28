@@ -263,7 +263,7 @@ namespace postitSimulator
 
         private void AddPostit_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            new Postit().Show();
         }
         private void AddPolaroid_Click(object sender, RoutedEventArgs e)
         {

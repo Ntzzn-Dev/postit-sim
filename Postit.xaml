@@ -1,6 +1,7 @@
-﻿<Window x:Class="postitSimulator.MainWindow"
+﻿<Window x:Class="postitSimulator.Postit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Post-it"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -11,10 +12,21 @@
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
         MouseRightButtonUp="Window_MouseRightButtonUp"
         MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave">
+        MouseLeave="Window_MouseLeave"
+        Closing="Window_Closing">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save"
+                        Executed="SaveShortcut_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Key="S"
+                    Modifiers="Control"
+                    Command="ApplicationCommands.Save"/>
+    </Window.InputBindings>
 
     <Window.Resources>
-
         <!-- ContextMenu -->
         <Style TargetType="ContextMenu">
             <Setter Property="Background" Value="#2D2D30"/>
@@ -50,6 +62,7 @@
                     <Setter Property="BorderBrush" Value="Black"/>
                 </Trigger>
             </Style.Triggers>
+            
         </Style>
 
     <ContextMenu x:Key="GlobalMenu">
@@ -81,7 +94,7 @@
 
             <Button Background="#7FF4FFF1" Content="❗" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
             <Button Background="#7FF4FFF1" Content="✔" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
-            <Button Background="#7FF4FFF1" Content="❌" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
+            <Button Background="#7FF4FFF1" Content="🚀" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
             <Button Background="#7FF4FFF1" Content="🔒" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
 
             <Button Background="#7FF4FFF1" Content="🔓" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
@@ -98,13 +111,15 @@
             <Button Background="#7FF4FFF1" Content="📝" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
             <Button Background="#7FF4FFF1" Content="🏷" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
             <Button Background="#7FF4FFF1" Content="📁" Style="{StaticResource ColorButtonStyle}" Click="IconSelect_Click"/>
-           
         </UniformGrid>
         <Separator/>
+        <MenuItem Header="💾 Salvar como..." Click="SaveAsBtn_Click"/>
+        <MenuItem Header="💾 Salvar..." Click="SaveBtn_Click"/>
+        <MenuItem Header="📁 Abrir..." Click="OpenBtn_Click"/>
         <MenuItem Header="🗑️ Excluir" Click="DeleteBtn_Click"/>
         <Separator/>
-        <MenuItem Header="➕ Nova Polaroid" Click="AddPolaroid_Click"/>
-        <MenuItem Header="➕ Novo Postit" Click="AddPostit_Click"/>
+        <MenuItem Header="+ Nova Polaroid" Click="AddPolaroid_Click"/>
+        <MenuItem Header="+ Novo Postit" Click="AddPostit_Click"/>
         <Separator/>
         <MenuItem Header="✕ Fechar" Click="CloseBtn_Click"/>
     </ContextMenu>
@@ -292,9 +307,11 @@
                 Visibility="Collapsed"
                 MouseLeftButtonDown="DragArea_MouseLeftButtonDown"
                 MouseMove="DragArea_MouseMove"
-                MouseLeftButtonUp="DragArea_MouseLeftButtonUp">
+                MouseLeftButtonUp="DragArea_MouseLeftButtonUp"
+                ToolTip="Post-it">
 
                 <Path x:Name="DockedPath"
+                    Tag="0"
                     Fill="#FFF9F17F"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center">
